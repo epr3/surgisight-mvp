@@ -22,8 +22,7 @@ class Home extends React.Component {
         audio: true
       });
       const peer = new Peer("broadcaster", {
-        host: "localhost",
-        port: 4000,
+        host: "eduar.dev",
         path: "/peerjs",
         secure: false
       });
