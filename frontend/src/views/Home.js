@@ -1,6 +1,6 @@
 import React from "react";
 import openSocket from "socket.io-client";
-import ThreeScene from "../components/ThreeScene";
+import Peer from "peerjs";
 
 class Home extends React.Component {
   constructor(props) {
@@ -8,47 +8,27 @@ class Home extends React.Component {
     this.videoRef = React.createRef();
   }
 
-  state = {
-    videoStreamInterval: null
-  };
+  async componentDidMount() {
+    if (!("mediaDevices" in navigator) || !("RTCPeerConnection" in window)) {
+      alert("Sorry, your browser does not support WebRTC.");
+      return;
+    }
 
-  handleVideo = stream => {
-    this.videoRef.current.srcObject = stream;
-    const FPS = 60;
-    const socket = openSocket("http://localhost:3000");
-    this.setState({
-      videoStreamInterval: setInterval(() => {
-          socket.emit("stream", this.getFrame());
-        }, 1000 / FPS)
-    });
-  };
-
-  videoError = err => {
-    alert(err.message);
-  };
-
-  getFrame = () => {
-    const canvas = document.createElement("canvas");
-    canvas.width = this.videoRef.current.videoWidth;
-    canvas.height = this.videoRef.current.videoHeight;
-    canvas.getContext("2d").drawImage(this.videoRef.current, 0, 0);
-    const data = canvas.toDataURL("image/webp");
-    return data;
-  };
-
-  componentDidMount() {
-    navigator.getUserMedia =
-      navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia ||
-      navigator.msGetUserMedia ||
-      navigator.oGetUserMedia;
-    if (navigator.getUserMedia) {
-      navigator.getUserMedia(
-        { video: true },
-        this.handleVideo,
-        this.videoError
-      );
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true
+      });
+      const peer = new Peer("broadcaster", {
+        host: "localhost",
+        port: 4000,
+        path: "/peerjs"
+      });
+      peer.call("receiver", stream);
+      this.videoRef.current.srcObject = stream;
+      const socket = openSocket("http://localhost:3000");
+    } catch (e) {
+      console.error(e);
     }
   }
 
@@ -57,10 +37,7 @@ class Home extends React.Component {
   }
 
   render() {
-    return (
-      <video ref={this.videoRef} autoPlay />
-     );
-
+    return <video ref={this.videoRef} autoPlay />;
   }
 }
 
