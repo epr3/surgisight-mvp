@@ -16,7 +16,7 @@ class Home extends React.Component {
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
+        video: { width: 1280, height: 720 },
         audio: true
       });
       const peer = new Peer("broadcaster", {
@@ -30,10 +30,6 @@ class Home extends React.Component {
     } catch (e) {
       console.error(e);
     }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.state.videoStreamInterval);
   }
 
   render() {

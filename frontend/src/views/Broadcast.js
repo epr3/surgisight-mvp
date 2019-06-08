@@ -14,6 +14,10 @@ class Broadcast extends React.Component {
     this.videoRef = React.createRef();
   }
 
+  state = {
+
+  }
+
   componentDidMount() {
     const peer = new Peer("receiver", {
       host: "localhost",
