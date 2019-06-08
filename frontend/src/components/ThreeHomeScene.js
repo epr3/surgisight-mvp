@@ -42,10 +42,10 @@ class ThreeHomeScene extends React.Component {
       1,
       5000
     );
-    this.camera.position.set(0, 500, 500);
+    this.camera.position.set(0, 250, 500);
     // this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
     // this.camera.position.set(0, 0, 400);
-    this.camera.lookAt(this.scene.position);
+    // this.camera.lookAt(this.scene.position);
     //ADD RENDERER
     this.renderer = new THREE.WebGLRenderer({
       alpha: true,

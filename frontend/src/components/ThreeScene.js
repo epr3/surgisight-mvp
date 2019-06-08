@@ -91,7 +91,7 @@ class ThreeScene extends React.Component {
       if (hands) {
         this.state.socket.emit("scene", this.scene.toJSON());
       }
-    }, 500);
+    }, 50);
   }
   componentWillUnmount() {
     this.stop();
