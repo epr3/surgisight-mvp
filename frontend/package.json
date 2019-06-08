@@ -5,6 +5,7 @@
   "dependencies": {
     "@reach/router": "^1.2.1",
     "bootstrap": "^4.3.1",
+    "flatted": "^2.0.0",
     "leapjs": "^0.6.4",
     "lodash": "^4.17.11",
     "node-sass": "^4.12.0",

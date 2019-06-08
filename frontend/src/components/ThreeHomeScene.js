@@ -1,40 +1,13 @@
 import React from "react";
 import * as THREE from "three";
-import { withLeapContainer } from "./leap";
 import openSocket from "socket.io-client";
-import { stringify } from "flatted/esm";
+import { parse } from "flatted/esm";
 
-function restrictToRange(value, min, max) {
-  if (value > max) {
-    return max;
-  }
-  if (value < min) {
-    return min;
-  }
-  return value;
-}
-
-function screenFingerPosition(tipPosition, spaceSize) {
-  const heightStartScale = 100;
-  const widthRatio = window.innerWidth / (2 * spaceSize);
-  const heightRatio = window.innerHeight / (2 * spaceSize);
-  const x = restrictToRange(tipPosition[0], -spaceSize, spaceSize);
-  const y = restrictToRange(
-    tipPosition[1] - heightStartScale - spaceSize,
-    -spaceSize,
-    spaceSize
-  );
-  const z = tipPosition[2];
-  const xNorm = x * widthRatio;
-  const yNorm = y * heightRatio;
-  const normalizedPosition = [xNorm, yNorm, z];
-  return normalizedPosition;
-}
-
-class ThreeScene extends React.Component {
+class ThreeHomeScene extends React.Component {
   state = {
     socket: null
   };
+
   addMesh = meshes => {
     var geometry = new THREE.BoxGeometry(1, 1, 1);
     var material = new THREE.MeshNormalMaterial();
@@ -48,6 +21,7 @@ class ThreeScene extends React.Component {
     const baseBoneRotation = new THREE.Quaternion().setFromEuler(
       new THREE.Euler(0, 0, Math.PI / 2)
     );
+    console.log(bone);
     mesh.position.fromArray(bone.center());
     mesh.setRotationFromMatrix(new THREE.Matrix4().fromArray(bone.matrix()));
     mesh.quaternion.multiply(baseBoneRotation);
@@ -57,7 +31,6 @@ class ThreeScene extends React.Component {
   };
 
   componentDidMount() {
-    this.setState({ socket: openSocket("http://localhost:3000") });
     const width = window.innerWidth;
     const height = window.innerHeight;
     //ADD SCENE
@@ -81,14 +54,16 @@ class ThreeScene extends React.Component {
     this.renderer.setClearColor(0x000000, 0);
     this.renderer.setSize(width, height);
     this.mount.appendChild(this.renderer.domElement);
-    this.boneMeshes = [];
-    this.start();
-    setInterval(() => {
-      let hands = this.props.frame.hands;
-      if (hands) {
-        this.state.socket.emit("scene", this.scene.toJSON());
-      }
-    }, 500);
+    this.setState({ socket: openSocket("http://localhost:3000") }, () => {
+      this.state.socket.on("scene:emit", data => {
+        const objectLoader = new THREE.ObjectLoader();
+        objectLoader.parse(data, scene => {
+          console.log(scene);
+          this.scene = scene;
+        });
+      });
+      this.start();
+    });
   }
   componentWillUnmount() {
     this.stop();
@@ -103,27 +78,6 @@ class ThreeScene extends React.Component {
     cancelAnimationFrame(this.frameId);
   };
   animate = () => {
-    let hands = this.props.frame.hands;
-
-    let countBones = 0;
-    this.boneMeshes.forEach(item => {
-      this.scene.remove(item);
-    });
-
-    if (hands) {
-      hands.forEach(hand => {
-        hand.fingers.forEach(finger => {
-          for (let i = 0; i < finger.bones.length; i++) {
-            if (countBones++ === 0) {
-              continue;
-            }
-            let boneMesh =
-              this.boneMeshes[countBones] || this.addMesh(this.boneMeshes);
-            this.updateMesh(finger.bones[i], boneMesh);
-          }
-        });
-      });
-    }
     this.renderScene();
     this.frameId = window.requestAnimationFrame(this.animate);
   };
@@ -148,4 +102,4 @@ class ThreeScene extends React.Component {
   }
 }
 
-export default withLeapContainer(ThreeScene);
+export default ThreeHomeScene;
