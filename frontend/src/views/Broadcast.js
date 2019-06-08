@@ -1,5 +1,6 @@
 import React from "react";
 import openSocket from "socket.io-client";
+import vitals from '../vitals.png';
 
 import Peer from "peerjs";
 import { LeapProvider } from "../components/leap";
@@ -47,7 +48,11 @@ class Broadcast extends React.Component {
   }
   render() {
     return (
+
       <div style={{ position: "relative" }}>
+        
+        <img className="vitals-img" src={vitals} alt="vitals"/>
+        
         <div className="video-container">
           <video ref={this.videoRef} autoPlay />
         </div>

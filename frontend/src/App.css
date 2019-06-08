@@ -34,3 +34,10 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.vitals-img {
+  position: fixed;
+  top: 3%;
+  right: 3%;
+  width: 20%;
+  opacity: .7;
+}
