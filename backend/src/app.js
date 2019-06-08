@@ -3,9 +3,7 @@ const cors = require('cors');
 const express = require('express');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
-const path = require('path');
 const dotenv = require('dotenv');
-const ExpressPeerServer = require('peer').ExpressPeerServer;
 
 dotenv.config();
 
@@ -19,10 +17,6 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-const options = {
-  debug: true
-};
 
 app.get('/healthz', (req, res) => {
   res.status(200).send('OK');
@@ -52,9 +46,9 @@ peerServerInstance.on('disconnect', function(id) {
 });
 
 io.on('connection', socket => {
-  console.log('client connected');
-  socket.on('stream', image => {
-    socket.broadcast.emit('stream', image);
+  socket.on('scene', data => {
+    console.log(data);
+    socket.broadcast.emit('scene:emit', data);
   });
 });
 

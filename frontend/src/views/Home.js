@@ -2,6 +2,8 @@ import React from "react";
 import openSocket from "socket.io-client";
 import Peer from "peerjs";
 
+import ThreeHomeScene from "../components/ThreeHomeScene";
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -16,13 +18,14 @@ class Home extends React.Component {
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: 1280, height: 720 },
+        video: { width: 1270, height: 800 },
         audio: true
       });
       const peer = new Peer("broadcaster", {
         host: "localhost",
         port: 4000,
-        path: "/peerjs"
+        path: "/peerjs",
+        secure: false
       });
       peer.call("receiver", stream);
       this.videoRef.current.srcObject = stream;
@@ -32,8 +35,17 @@ class Home extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    clearInterval(this.state.videoStreamInterval);
+  }
+
   render() {
-    return <video ref={this.videoRef} autoPlay />;
+    return (
+      <>
+        <ThreeHomeScene />
+        <video ref={this.videoRef} autoPlay />
+      </>
+    );
   }
 }
 

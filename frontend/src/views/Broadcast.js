@@ -23,7 +23,8 @@ class Broadcast extends React.Component {
     const peer = new Peer("receiver", {
       host: "localhost",
       port: 4000,
-      path: "/peerjs"
+      path: "/peerjs",
+      secure: false
     });
     peer.on(
       "call",
