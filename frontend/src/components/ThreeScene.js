@@ -104,10 +104,10 @@ class ThreeScene extends React.Component {
   };
   animate = () => {
     let hands = this.props.frame.hands;
-
-    if (this.props.frame.gestures.length > 0) {
-      this.props.frame.gestures.forEach(function (gesture) {
-        if (gesture.type == "swipe") {
+    let gestures = this.props.frame.gestures ? this.props.frame.gestures : [];
+    if (gestures.length > 0) {
+      gestures.forEach(function(gesture) {
+        if (gesture.type === "swipe") {
           console.log("e swipe bitches");
         }
       });
