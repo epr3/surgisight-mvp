@@ -1,9 +1,5 @@
-.App {
-  text-align: center;
-}
-
-.App-link {
-  color: #61dafb;
+body {
+  overflow: hidden;
 }
 
 @keyframes App-logo-spin {
@@ -27,6 +23,7 @@
 video {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .vitals-img {
