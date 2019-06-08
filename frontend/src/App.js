@@ -10,13 +10,14 @@ import Legend from './components/Legend';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header"> 
+      <Link to="/">Home</Link>
+      <Link to="/broadcast">Broadcast</Link> 
       </header>
       <Router>
         <Home path="/" />
         <Broadcast path="/broadcast" />
       </Router>
-      <Legend/>
     </div>
   );
 }

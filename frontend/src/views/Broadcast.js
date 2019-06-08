@@ -1,6 +1,6 @@
 import React from "react";
 import openSocket from "socket.io-client";
-
+import Legend from "../components/Legend";
 import ThreeScene from "../components/ThreeScene";
 
 class Broadcast extends React.Component {
@@ -18,8 +18,11 @@ class Broadcast extends React.Component {
   render() {
     return (
       <div style={{ position: 'relative' }}>
-        <img ref={this.imageRef} src="" alt="videoFeed" />
+        <div className="video-container">
+          <img  ref={this.imageRef} src="" alt="videoFeed" />
+        </div>
         <ThreeScene />
+        <Legend/>
       </div>
     );
   }

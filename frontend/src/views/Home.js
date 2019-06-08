@@ -58,11 +58,8 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div>
-        <video ref={this.videoRef} autoPlay />
-        <ThreeScene/>
-      </div>
-    );
+      <video ref={this.videoRef} autoPlay />
+     );
 
   }
 }
