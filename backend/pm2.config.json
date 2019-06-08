@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "node_app",
+      "script": "./src/app.js",
+      "watch": true
+    }
+  ]
+}
