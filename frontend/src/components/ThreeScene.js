@@ -3,40 +3,13 @@ import * as THREE from "three";
 import { withLeapContainer } from "./leap";
 import openSocket from "socket.io-client";
 
-function restrictToRange(value, min, max) {
-  if (value > max) {
-    return max;
-  }
-  if (value < min) {
-    return min;
-  }
-  return value;
-}
-
-function screenFingerPosition(tipPosition, spaceSize) {
-  const heightStartScale = 100;
-  const widthRatio = window.innerWidth / (2 * spaceSize);
-  const heightRatio = window.innerHeight / (2 * spaceSize);
-  const x = restrictToRange(tipPosition[0], -spaceSize, spaceSize);
-  const y = restrictToRange(
-    tipPosition[1] - heightStartScale - spaceSize,
-    -spaceSize,
-    spaceSize
-  );
-  const z = tipPosition[2];
-  const xNorm = x * widthRatio;
-  const yNorm = y * heightRatio;
-  const normalizedPosition = [xNorm, yNorm, z];
-  return normalizedPosition;
-}
-
 class ThreeScene extends React.Component {
   state = {
     socket: null
   };
   addMesh = meshes => {
     var geometry = new THREE.BoxGeometry(1, 1, 1);
-    var material = new THREE.MeshNormalMaterial();
+    var material = new THREE.MeshNormalMaterial({ color: 0xffffff });
     var mesh = new THREE.Mesh(geometry, material);
     meshes.push(mesh);
 
@@ -87,10 +60,7 @@ class ThreeScene extends React.Component {
     // this.scene.add(mesh);
     this.start();
     setInterval(() => {
-      let hands = this.props.frame.hands;
-      if (hands) {
-        this.state.socket.emit("scene", this.scene.toJSON());
-      }
+      this.state.socket.emit("scene", this.scene.toJSON());
     }, 80);
   }
   componentWillUnmount() {
@@ -107,19 +77,24 @@ class ThreeScene extends React.Component {
   };
   animate = () => {
     let hands = this.props.frame.hands;
-    let gestures = this.props.frame.gestures ? this.props.frame.gestures : [];
-    if (gestures.length > 0) {
-      gestures.forEach(function(gesture) {
-        if (gesture.type === "swipe") {
-          console.log("e swipe bitches");
-        }
-      });
-    }
     let countBones = 0;
     this.boneMeshes.forEach(item => {
       this.scene.remove(item);
     });
-
+    let gestures = this.props.frame.gestures ? this.props.frame.gestures : null;
+    if (gestures) {
+      gestures.forEach(gesture => {
+        if (gesture.type === "screenTap" && gesture.state === 'stop') {
+          console.log(gesture);
+          const normalized = this.props.frame.interactionBox.normalizePoint(
+            gesture.position
+          );
+          this.state.socket.emit("tap", { coordinates: normalized, direction: gesture.direction });
+        } else if (gesture.type === "swipe") {
+          this.state.socket.emit("clear");
+        }
+      });
+    }
     if (hands) {
       hands.forEach(hand => {
         hand.fingers.forEach(finger => {

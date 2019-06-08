@@ -2,6 +2,7 @@ import React from "react";
 import Peer from "peerjs";
 
 import ThreeHomeScene from "../components/ThreeHomeScene";
+import CanvasComponent from '../components/CanvasComponent';
 
 class Home extends React.Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class Home extends React.Component {
     return (
       <>
         <ThreeHomeScene />
+        <CanvasComponent />
         <video ref={this.videoRef} autoPlay />
       </>
     );
