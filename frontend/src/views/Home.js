@@ -1,5 +1,6 @@
 import React from "react";
 import openSocket from "socket.io-client";
+import ThreeScene from "../components/ThreeScene";
 
 class Home extends React.Component {
   constructor(props) {
@@ -56,7 +57,13 @@ class Home extends React.Component {
   }
 
   render() {
-    return <video ref={this.videoRef} autoPlay />;
+    return (
+      <div>
+        <video ref={this.videoRef} autoPlay />
+        <ThreeScene/>
+      </div>
+    );
+
   }
 }
 
