@@ -5,17 +5,14 @@ import { Router, Link } from '@reach/router';
 
 import Home from './views/Home';
 import Broadcast from './views/Broadcast';
+import Legend from './components/Legend';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <Link to="/">Home</Link>
-        <Link to="/broadcast">Broadcast</Link>
+      <header className="App-header"> 
+      <Link to="/">Home</Link>
+      <Link to="/broadcast">Broadcast</Link> 
       </header>
       <Router>
         <Home path="/" />

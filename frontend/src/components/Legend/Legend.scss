@@ -1,0 +1,14 @@
+.legend-container {
+    width: fit-content;
+    position: fixed;
+    right: 3%;
+    bottom: 3%;
+    text-transform: uppercase; 
+    .pill-content {
+        color: transparent;
+        margin: 10px;
+    }
+   .legend-container{
+    background: transparent; 
+   }
+}
