@@ -58,7 +58,6 @@ class ThreeHomeScene extends React.Component {
       this.state.socket.on("scene:emit", data => {
         const objectLoader = new THREE.ObjectLoader();
         objectLoader.parse(data, scene => {
-          console.log(scene);
           this.scene = scene;
         });
       });

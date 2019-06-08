@@ -15,10 +15,6 @@ class Broadcast extends React.Component {
     this.videoRef = React.createRef();
   }
 
-  state = {
-
-  }
-
   componentDidMount() {
     const peer = new Peer("receiver", {
       host: "localhost",
@@ -30,6 +26,7 @@ class Broadcast extends React.Component {
       "call",
       call => {
         call.answer();
+        console.log("answer");
         call.on("stream", remoteStream => {
           console.log(remoteStream);
           console.log(this.videoRef.current);
@@ -41,22 +38,18 @@ class Broadcast extends React.Component {
         console.error("Failed to get local stream", err);
       }
     );
-    const socket = openSocket("http://localhost:3000");
-    socket.on("user connected", data => {
-      console.log(data);
-    });
   }
   render() {
     return (
 
       <div style={{ position: "relative" }}>
-        
+
         <img className="vitals-img" src={vitals} alt="vitals"/>
-        
+
         <div className="video-container">
           <video ref={this.videoRef} autoPlay />
         </div>
-        <LeapProvider options={{ enableGestures: true }}>
+        <LeapProvider options={{ enableGestures: true, useScreenPosition: true }}>
           <ThreeScene />
         </LeapProvider>
         <Legend />

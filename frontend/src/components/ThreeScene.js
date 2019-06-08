@@ -2,7 +2,6 @@ import React from "react";
 import * as THREE from "three";
 import { withLeapContainer } from "./leap";
 import openSocket from "socket.io-client";
-import { stringify } from "flatted/esm";
 
 function restrictToRange(value, min, max) {
   if (value > max) {
@@ -48,6 +47,7 @@ class ThreeScene extends React.Component {
     const baseBoneRotation = new THREE.Quaternion().setFromEuler(
       new THREE.Euler(0, 0, Math.PI / 2)
     );
+
     mesh.position.fromArray(bone.center());
     mesh.setRotationFromMatrix(new THREE.Matrix4().fromArray(bone.matrix()));
     mesh.quaternion.multiply(baseBoneRotation);
@@ -69,10 +69,8 @@ class ThreeScene extends React.Component {
       1,
       5000
     );
-    this.camera.position.set(0, 500, 500);
-    // this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    // this.camera.position.set(0, 0, 400);
-    this.camera.lookAt(this.scene.position);
+    this.camera.position.set(0, 250, 500);
+    // this.camera.lookAt(this.scene.position);
     //ADD RENDERER
     this.renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -82,6 +80,11 @@ class ThreeScene extends React.Component {
     this.renderer.setSize(width, height);
     this.mount.appendChild(this.renderer.domElement);
     this.boneMeshes = [];
+    // const geometry = new THREE.BoxGeometry(50, 50, 50);
+    // const material = new THREE.MeshNormalMaterial();
+    // const mesh = new THREE.Mesh(geometry, material);
+    // mesh.position.set(0, 100, 0);
+    // this.scene.add(mesh);
     this.start();
     setInterval(() => {
       let hands = this.props.frame.hands;

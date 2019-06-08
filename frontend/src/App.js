@@ -1,19 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Router, Link } from '@reach/router';
+import { Router } from '@reach/router';
 
 import Home from './views/Home';
 import Broadcast from './views/Broadcast';
-import Legend from './components/Legend';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header"> 
-      <Link to="/">Home</Link>
-      <Link to="/broadcast">Broadcast</Link> 
-      </header>
       <Router>
         <Home path="/" />
         <Broadcast path="/broadcast" />

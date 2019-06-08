@@ -47,7 +47,6 @@ peerServerInstance.on('disconnect', function(id) {
 
 io.on('connection', socket => {
   socket.on('scene', data => {
-    console.log(data);
     socket.broadcast.emit('scene:emit', data);
   });
 });

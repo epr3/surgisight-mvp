@@ -1,5 +1,4 @@
 import React from "react";
-import openSocket from "socket.io-client";
 import Peer from "peerjs";
 
 import ThreeHomeScene from "../components/ThreeHomeScene";
@@ -18,7 +17,11 @@ class Home extends React.Component {
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: 1270, height: 800 },
+        video: {
+          width: 1270,
+          height: 800,
+          facingMode: { exact: "environment" }
+        },
         audio: true
       });
       const peer = new Peer("broadcaster", {
@@ -29,7 +32,6 @@ class Home extends React.Component {
       });
       peer.call("receiver", stream);
       this.videoRef.current.srcObject = stream;
-      const socket = openSocket("http://localhost:3000");
     } catch (e) {
       console.error(e);
     }
