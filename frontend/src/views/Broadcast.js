@@ -1,6 +1,8 @@
 import React from "react";
 import openSocket from "socket.io-client";
 
+import { LeapProvider } from "../components/leap";
+
 import ThreeScene from "../components/ThreeScene";
 
 class Broadcast extends React.Component {
@@ -17,9 +19,11 @@ class Broadcast extends React.Component {
   }
   render() {
     return (
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: "relative" }}>
         <img ref={this.imageRef} src="" alt="videoFeed" />
-        <ThreeScene />
+        <LeapProvider options={{ enableGestures: true }}>
+          <ThreeScene />
+        </LeapProvider>
       </div>
     );
   }
