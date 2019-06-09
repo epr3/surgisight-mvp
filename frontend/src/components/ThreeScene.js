@@ -9,7 +9,11 @@ class ThreeScene extends React.Component {
   };
   addMesh = meshes => {
     var geometry = new THREE.BoxGeometry(1, 1, 1);
-    var material = new THREE.MeshNormalMaterial({ color: 0xffffff });
+    var material = new THREE.MeshNormalMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.6
+    });
     var mesh = new THREE.Mesh(geometry, material);
     meshes.push(mesh);
 

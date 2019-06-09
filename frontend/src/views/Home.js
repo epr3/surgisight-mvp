@@ -18,8 +18,8 @@ class Home extends React.Component {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          width: 1920,
-          height: 1080,
+          width: 640,
+          height: 480,
           facingMode: { exact: "environment" }
         },
         audio: false
