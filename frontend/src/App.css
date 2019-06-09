@@ -43,3 +43,22 @@ canvas {
   width: 20%;
   opacity: .7;
 }
+
+.list-group-item {
+  display: flex !important;
+  align-items: center;
+}
+
+.badge {
+  padding: 1.25em 1.25em !important;
+}
+
+.badge-pill {
+  padding-right: 2em !important;
+  padding-left: 1em !important;
+  border-radius: 50% !important;
+}
+
+.list-group-item strong {
+  font-size: 32px;
+}

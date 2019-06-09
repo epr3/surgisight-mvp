@@ -86,7 +86,7 @@ class ThreeScene extends React.Component {
           this.cubes.push(mesh);
           mesh.position.fromArray(gesture.position);
           this.scene.add(mesh);
-        } else if (gesture.type === "swipe") {
+        } else if (gesture.type === "swipe" && gesture.state === "stop") {
           this.cubes.forEach(item => {
             this.scene.remove(item);
           });
