@@ -50,10 +50,10 @@ io.on('connection', socket => {
     socket.broadcast.emit('scene:emit', data);
   });
   socket.on('tap', data => {
-    socket.broadcast.emit('tap:emit', data);
+    io.sockets.emit('tap:emit', data);
   });
   socket.on('clear', () => {
-    socket.broadcast.emit('clear:emit');
+    io.sockets.emit('clear:emit');
   });
 });
 

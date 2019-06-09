@@ -1,12 +1,12 @@
 import React from "react";
-import openSocket from "socket.io-client";
-import vitals from '../vitals.png';
+import vitals from "../vitals.png";
 
 import Peer from "peerjs";
 import { LeapProvider } from "../components/leap";
 
 import Legend from "../components/Legend";
 import ThreeScene from "../components/ThreeScene";
+import CanvasComponent from "../components/CanvasComponent";
 
 class Broadcast extends React.Component {
   constructor(props) {
@@ -41,15 +41,16 @@ class Broadcast extends React.Component {
   }
   render() {
     return (
-
       <div style={{ position: "relative" }}>
-
-        <img className="vitals-img" src={vitals} alt="vitals"/>
+        <img className="vitals-img" src={vitals} alt="vitals" />
 
         <div className="video-container">
           <video ref={this.videoRef} autoPlay />
         </div>
-        <LeapProvider options={{ enableGestures: true, useScreenPosition: true }}>
+        <CanvasComponent />
+        <LeapProvider
+          options={{ enableGestures: true, useScreenPosition: true }}
+        >
           <ThreeScene />
         </LeapProvider>
         <Legend />
