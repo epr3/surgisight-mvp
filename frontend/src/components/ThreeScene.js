@@ -80,9 +80,9 @@ class ThreeScene extends React.Component {
     if (gestures) {
       gestures.forEach(gesture => {
         if (gesture.type === "screenTap" && gesture.state === "stop") {
-          const geometry = new THREE.BoxGeometry(25, 25, 25);
-          const material = new THREE.MeshNormalMaterial();
-          const mesh = new THREE.Mesh(geometry, material);
+          const material = new THREE.SpriteMaterial();
+          const mesh = new THREE.Sprite(material);
+          mesh.scale.set(20, 20, 20);
           this.cubes.push(mesh);
           mesh.position.fromArray(gesture.position);
           this.scene.add(mesh);
