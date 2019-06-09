@@ -1,5 +1,5 @@
 import React from "react";
-import vitals from "../vitals.png";
+import vitals from "../vitals.gif";
 
 import Peer from "peerjs";
 import { LeapProvider } from "../components/leap";

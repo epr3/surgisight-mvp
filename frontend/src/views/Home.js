@@ -37,10 +37,6 @@ class Home extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    clearInterval(this.state.videoStreamInterval);
-  }
-
   render() {
     return (
       <>
