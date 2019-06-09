@@ -2,7 +2,6 @@ import React from "react";
 import Peer from "peerjs";
 
 import ThreeHomeScene from "../components/ThreeHomeScene";
-import CanvasComponent from '../components/CanvasComponent';
 
 class Home extends React.Component {
   constructor(props) {
@@ -23,7 +22,7 @@ class Home extends React.Component {
           height: 1080,
           facingMode: { exact: "environment" }
         },
-        audio: true
+        audio: false
       });
       const peer = new Peer("broadcaster", {
         host: "localhost",
@@ -46,7 +45,6 @@ class Home extends React.Component {
     return (
       <>
         <ThreeHomeScene />
-        <CanvasComponent />
         <video ref={this.videoRef} autoPlay />
       </>
     );

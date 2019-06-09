@@ -49,12 +49,6 @@ io.on('connection', socket => {
   socket.on('scene', data => {
     socket.broadcast.emit('scene:emit', data);
   });
-  socket.on('tap', data => {
-    io.sockets.emit('tap:emit', data);
-  });
-  socket.on('clear', () => {
-    io.sockets.emit('clear:emit');
-  });
 });
 
 const server = http.listen(process.env.PORT || 3000, () => {

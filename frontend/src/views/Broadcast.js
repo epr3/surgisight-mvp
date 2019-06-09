@@ -6,7 +6,6 @@ import { LeapProvider } from "../components/leap";
 
 import Legend from "../components/Legend";
 import ThreeScene from "../components/ThreeScene";
-import CanvasComponent from "../components/CanvasComponent";
 
 class Broadcast extends React.Component {
   constructor(props) {
@@ -28,10 +27,7 @@ class Broadcast extends React.Component {
         call.answer();
         console.log("answer");
         call.on("stream", remoteStream => {
-          console.log(remoteStream);
-          console.log(this.videoRef.current);
           this.videoRef.current.srcObject = remoteStream;
-          console.log(this.videoRef.current.srcObject);
         });
       },
       err => {
@@ -47,7 +43,6 @@ class Broadcast extends React.Component {
         <div className="video-container">
           <video ref={this.videoRef} autoPlay />
         </div>
-        <CanvasComponent />
         <LeapProvider
           options={{ enableGestures: true, useScreenPosition: true }}
         >

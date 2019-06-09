@@ -43,7 +43,6 @@ class ThreeScene extends React.Component {
       5000
     );
     this.camera.position.set(0, 250, 500);
-    // this.camera.lookAt(this.scene.position);
     //ADD RENDERER
     this.renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -53,11 +52,7 @@ class ThreeScene extends React.Component {
     this.renderer.setSize(width, height);
     this.mount.appendChild(this.renderer.domElement);
     this.boneMeshes = [];
-    // const geometry = new THREE.BoxGeometry(50, 50, 50);
-    // const material = new THREE.MeshNormalMaterial();
-    // const mesh = new THREE.Mesh(geometry, material);
-    // mesh.position.set(0, 100, 0);
-    // this.scene.add(mesh);
+    this.cubes = [];
     this.start();
     setInterval(() => {
       this.state.socket.emit("scene", this.scene.toJSON());
@@ -84,14 +79,17 @@ class ThreeScene extends React.Component {
     let gestures = this.props.frame.gestures ? this.props.frame.gestures : null;
     if (gestures) {
       gestures.forEach(gesture => {
-        if (gesture.type === "screenTap" && gesture.state === 'stop') {
-          console.log(gesture);
-          const normalized = this.props.frame.interactionBox.normalizePoint(
-            gesture.position
-          );
-          this.state.socket.emit("tap", { coordinates: normalized, direction: gesture.direction });
+        if (gesture.type === "screenTap" && gesture.state === "stop") {
+          const geometry = new THREE.BoxGeometry(25, 25, 25);
+          const material = new THREE.MeshNormalMaterial();
+          const mesh = new THREE.Mesh(geometry, material);
+          this.cubes.push(mesh);
+          mesh.position.fromArray(gesture.position);
+          this.scene.add(mesh);
         } else if (gesture.type === "swipe") {
-          this.state.socket.emit("clear");
+          this.cubes.forEach(item => {
+            this.scene.remove(item);
+          });
         }
       });
     }
